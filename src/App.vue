@@ -1,15 +1,8 @@
 <script setup>
-import { computed, reactive } from 'vue';
-  let image = 'test';
 
+  import { ref } from 'vue'
 
-  const data = reactive({
-    firstName: 'John',
-    lastName: 'Dou'
-  })
-
-  const fullName = computed(() => data.firstName + " " +  data.lastName)
-
+  const count = ref(0)
 
 
 
@@ -17,14 +10,8 @@ import { computed, reactive } from 'vue';
 </script>
 
 <template>
-  <img :src="image" alt="">
-
-
-
-
-
-
-  <h1>{{ fullName }}</h1>
+<button v-on:click=count++>кнопка</button>
+<p>{{ count }}</p>
 
 
 
