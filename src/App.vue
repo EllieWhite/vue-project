@@ -38,9 +38,7 @@
   }
 
   const clearAll  = () => {
-    for (let i = 0; i < todos.length; i++) {
-        todos.splice(i, )
-    }
+        todos.splice(0, todos.length)
   }
 </script>
 
