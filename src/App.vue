@@ -54,14 +54,14 @@ const basket = reactive([
   });
 
   const totalSum = computed(() => {
-    return calcSum.value.reduce((total, product) => total + product, 0);
+    return calcSum.value.reduce((total, product) => total + product, 0).toFixed(2);
   })
 
   const totalTax = computed(() => {
     return((totalSum.value * 0.1).toFixed(2))
   })
 
-  const emptyCheck = computed(() => basket.length >= 1)
+  const emptyCheck = computed(() => basket.length === 0)
 </script>
 
 <template>
@@ -127,13 +127,13 @@ const basket = reactive([
             </td>
           </tr>
 
-          <tr v-if="!emptyCheck">
+          <tr v-if="emptyCheck">
             <td colspan="5">
               <p class="basket-table__empty">No items</p>
             </td>
           </tr>
 
-          <tr>
+          <tr v-if="!emptyCheck">
             <td colspan="5">
               <div class="basket-table__summary">
                 <p class="basket-table__total">Total <b>${{totalSum}}</b></p>
