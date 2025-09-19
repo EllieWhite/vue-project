@@ -1,8 +1,8 @@
 <script setup>
 
-  import { ref } from 'vue'
+  import  BaseButton  from './components/BaseButton.vue'
 
-  const count = ref(0)
+
 
 
 
@@ -10,10 +10,8 @@
 </script>
 
 <template>
-<button v-on:click=count++>кнопка</button>
-<p>{{ count }}</p>
 
-
+  <BaseButton text="text" number="2"/>
 
 
 
