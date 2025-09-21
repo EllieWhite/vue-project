@@ -1,19 +1,27 @@
 <script setup>
+  import { provide, ref } from 'vue';
+  import BaseHeader from './components/BaseHeader.vue';
+  import CatalogList from './components/CatalogList.vue';
+  import BaseBtn from './components/BaseBtn.vue';
 
-  import  BaseButton  from './components/BaseButton.vue'
+  const amountInBasket = ref(22)
 
+  const updateBasketAmount = () => {
+    amountInBasket.value++
+  }
 
-
-
-
+  provide('amountInBasket', {
+    amountInBasket,
+    updateBasketAmount
+  })
 
 </script>
 
 <template>
 
-  <BaseButton text="text" number="2"/>
-
-
+  <BaseHeader/>
+  <CatalogList />
+  <BaseBtn />
 
 
 
