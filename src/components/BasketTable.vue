@@ -6,7 +6,8 @@ import BasketTableSummary from './BasketTableSummary.vue';
         basket: Array,
         totalSum: Number,
         totalTax: Number,
-        emptyCheck: Boolean
+        emptyCheck: Boolean,
+        id: Number
 
     })
 </script>

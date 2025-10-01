@@ -4,7 +4,6 @@
         totalTax: Number,
         emptyCheck: Boolean
     })
-    const emit = defineEmits(['total-sum']);
 </script>
 
 <template>
