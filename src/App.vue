@@ -1,7 +1,9 @@
 <script setup>
   import { Form, Field, ErrorMessage } from 'vee-validate'
-  import { ref, watch, computed } from 'vue'
+  import { ref, watch, computed, reactive } from 'vue'
   import * as yup from 'yup'
+
+    const succesMessage = ref(false)
 
     const phoneRegExp = /^\+?\d{10,15}$/;
 
@@ -10,32 +12,6 @@
     const passwordValue = ref('');
     const passwordConfirmValue = ref('');
 
-
-    watch(
-      () => passwordValue.value,
-      (newValue) => {
-        return
-      }
-    )
-
-    watch(
-      () => passwordConfirmValue.value,
-      (newConfirmValue) => {
-        return
-      }
-    )
-
-    const passwordsMatch = computed(() => {
-      return passwordValue.value === passwordConfirmValue.value;
-    });
-
-    const a = computed(() => { console.log('aaa')
-      watch(passwordsMatch, (newValue) => {
-        console.log('Пароли совпадают:', newValue);
-      });
-
-      })
-      console.log(passwordValue.value)
     const schema = yup.object({
       firstName: yup.string().required('имя обязательно'),
       lastName: yup.string().required('фамилия обязательна'),
@@ -44,8 +20,9 @@
       phone: yup.string().required('телефон обязателен').matches(phoneRegExp, 'Phone number is not valid'),
       email: yup.string().required('email обязателен').email('email is not valid'),
       password: yup.string().required('password обязателен').matches(passRegExp, 'Password is not valid'),
-      confirmPassword: yup.string().required('password обязателен').matches(a, 'пароли не совпадают'),
-      comments: yup.string()
+      confirmPassword: yup.string().required('password обязателен').oneOf([yup.ref('password'), null], 'Пароли не совпадают'),
+      comments: yup.string(),
+      terms: yup.bool().required('Cогласитесь')
     })
 
 
@@ -59,7 +36,7 @@
       confirmPasswordType.value = confirmPasswordType.value === 'password' ? 'text' : 'password';
     }
 
-    const cities = [
+    const cities = reactive([
       {
         name: "Москва",
         value: 'msc'
@@ -80,14 +57,17 @@
         name: "Другой",
         value: 'other'
       },
-    ]
+    ])
 
+    const onFormSubmit = () => {
+      succesMessage.value = true
+    }
 </script>
 
 <template>
   <div class="container">
     <h1 class="title">Регистрация</h1>
-    <Form :validation-schema="schema" @submit="onFormSubmit" class="registration-form">
+    <Form :validation-schema="schema" @submit="onFormSubmit" class="registration-form" v-if="!succesMessage">
       <div class="form-group">
         <label class="form-label" for="firstName">Имя *</label>
         <Field class="form-control" name="firstName" type="text" id="firstName" />
@@ -108,7 +88,7 @@
         <div class="custom-select">
           <Field v-slot="{ value }" as="select" class="form-control" id="city" name="city">
             <option value="" disabled selected>Выберите город</option>
-            <option v-for="city in cities" :key="city.name" :value="city.value" :selected="value && value.includes(city)">{{ city.name }}</option>
+            <option v-for="city in cities" :key="city.name" :value="city.value" >{{ city.name }}</option>
           </Field>
           <ErrorMessage name="city"/>
         </div>
@@ -161,14 +141,15 @@
       </div>
       <div class="form-group form-group--full-width">
         <label class="form-label form-label--checkbox" for="terms">
-          <input type="checkbox" id="terms" name="terms" required />
+          <Field type="checkbox" id="terms" name="terms" :value="true"  />
           Я согласен c условиями пользования и политикой конфиденциальности
         </label>
+         <ErrorMessage name="terms"/>
       </div>
       <button class="btn" type="submit">Зарегистрироваться</button>
       <button class="btn" type="reset">Очистить форму</button>
     </Form>
-    <div class="message message--success">Регистрация прошла успешно!</div>
+    <div class="message message--success" v-else>Регистрация прошла успешно!</div>
   </div>
 </template>
 
