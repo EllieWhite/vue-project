@@ -1,25 +1,21 @@
 <script setup>
+  import { ref, onBeforeUpdate } from 'vue';
 
-  import { Form, Field, ErrorMessage } from 'vee-validate'
-  import * as yup from 'yup'
-
-  const schema = yup.object({
-    name: yup.string().required('имя обязательно')
+  const counter = ref(0)
+  const button = ref('d')
+  onBeforeUpdate(() => {
+    console.log(
+      'onBeforeUpdate',
+    )
+    console.log(
+      counter.value
+    )
   })
 
-  const onFormSubmit = () => {
-   alert('yes')
-  }
 </script>
 
 <template>
- <Form :validation-schema="schema" @submit="onFormSubmit">
-  <Field type="text" v-model="name" name="name" id="name" />
-  <ErrorMessage name="name" />
-  <Field type="email" v-model="email" name="email" id="email" />
-
-  <button type="submit">отправить</button>
- </Form>
+  <button ref="button" @click="counter++">кнопка {{ counter }}</button>
 
 </template>
 
