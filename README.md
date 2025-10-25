@@ -332,3 +332,56 @@
 
 
 **JSON Placeholder. Метод fetch()**
+
+    const posts = reactive([])
+    const error = ref('')
+
+    const fetchPosts = async () => {
+        error.value = '';
+
+        try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        if (!response.ok) {
+            throw new Error('errorerror')
+        }
+        const data = await response.json();
+        posts.push(...data)
+        } catch (err) {
+        error.value = err.message;
+        }
+    }
+
+    onMounted(() => {
+        fetchPosts()
+    })
+
+    <template>
+        <ul>
+            <li v-for="post in posts" :key="post.id">{{ post.title }}</li>
+            <div v-if="error">произошла ошибка {{ error }}</div>
+        </ul>
+    </template>
+
+**HTTP-метод GET**
+
+    GET запрашивает предоставление ресурса. Запросы с использованием этого метода могут только извлекать данные. 
+
+**HTTP-метод DELETE**
+**HTTP-метод POST**
+**HTTP-метод PUT**
+
+    PUT полностью заменяет существующий ресурс на сервере новыми данными, переданными в теле запроса. Если ресурс не существует, сервер может создать его (зависит от реализации API).
+
+**HTTP-метод PATCH**
+
+    PATCH используется для частичного обновления ресурса, изменяя только указанные поля, не затрагивая остальную часть данных.
+
+**Повторное использование логики. Composable-функции**
+
+    По соглашению, composable-функции всегда начинаются с приставки use и пишутся с помощью camelCase.
+    В контексте приложений Vue "composable" функция — это функция, использующая Composition API Vue для инкапсуляции и повторного использования логики с отслеживанием состояния.
+
+
+**Динамический useFetch()**
+
+    утилита toValue Нормализует значения / ref-объекты / геттеры к значениям.
