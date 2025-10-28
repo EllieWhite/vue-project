@@ -5,7 +5,7 @@
         v-for="todo in todos"
         :key="todo.id"
         v-bind="todo"
-        @remove="() => $emit('remove-todo', todo.id)"
+        @remove="(id) => $emit('remove-todo', id)"
         @complete.once="() => { todo.completed = !todo.completed; $emit('complete-todo', todo.id); }"
       />
     </ul>

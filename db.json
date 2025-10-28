@@ -1,19 +1,14 @@
 {
   "todos": [
     {
-      "id": "Mon Oct 27 2025 19:21:53 GMT+0300 (Moscow Standard Time)",
-      "text": "ddd",
-      "completed": false
+      "id": "Tue Oct 28 2025 00:38:18 GMT+0300 (Moscow Standard Time)",
+      "text": "jjj",
+      "completed": true
     },
     {
-      "id": "Mon Oct 27 2025 19:22:37 GMT+0300 (Moscow Standard Time)",
-      "text": "dd",
-      "completed": false
-    },
-    {
-      "id": "Mon Oct 27 2025 19:22:38 GMT+0300 (Moscow Standard Time)",
-      "text": "ee",
-      "completed": false
+      "id": "Tue Oct 28 2025 00:38:19 GMT+0300 (Moscow Standard Time)",
+      "text": "jj",
+      "completed": true
     }
   ]
 }

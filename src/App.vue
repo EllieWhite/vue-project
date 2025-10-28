@@ -11,8 +11,8 @@
       @clear-completed="clearCompleted"
       @clear-all="clearAll"
     />
-    <div v-if="error">Загрузка...</div>
-    <div v-show="isLoading">Произошла ошибка:</div>
+    <div v-if="isLoading">Загрузка...</div>
+    <div v-show="error">Произошла ошибка:</div>
   </div>
 </template>
 
@@ -50,14 +50,14 @@ import { useFetch } from './composables/useFetch'
   //   }
   // }
 
-  const clearAll = () => {
-    todos.splice(0, todos.length)
-  }
+  // const clearAll = () => {
+  //   todos.splice(0, todos.length)
+  // }
 
 
 
   const url = ref('http://localhost:3000/todos');
-  const {isLoading, error, fetchData} = useFetch(url);
+  const {isLoading, error, fetchData} = useFetch();
 
   const fetchTodos = async () => {
     const data = await fetchData('http://localhost:3000/todos');
@@ -84,7 +84,7 @@ import { useFetch } from './composables/useFetch'
 
   const removeTodo = async (id) => {
 
-    const data = await fetchData(`http://localhost:3000/todos/${id}`, {
+    fetchData(`http://localhost:3000/todos/${id}`, {
       method: 'DELETE'
     }).then(()=> {
     fetchTodos()
@@ -95,7 +95,7 @@ import { useFetch } from './composables/useFetch'
     const updateStatus = {
       "completed": !completed,
     }
-    const data = await fetchData(`http://localhost:3000/todos/${id}`, {
+     await fetchData(`http://localhost:3000/todos/${id}`, {
       method: 'PATCH',
       body: updateStatus,
        headers: { 'Content-Type': 'application/json'}
@@ -104,21 +104,21 @@ import { useFetch } from './composables/useFetch'
    });
   }
 
-  const clearCompleted = async (todos, i, id) => {
-       const clearCompleted = () => {
-     for (let i = todos.length - 1; i >= 0; i--) {
-      if (todos[i].completed) {
-        todos.splice(i, 1)
+  const clearAll= () => {
+    for (let i = todos.length - 1; i >= 0; i--) {
+      removeTodo(todos[i].id)
+    }
+  }
+  
+
+  const clearCompleted = () => {
+    for (let i = todos.length - 1; i >= 0; i--) {
+      if(todos[i].completed) {
+        removeTodo(todos[i].id)
       }
     }
   }
-     const data = await fetchData(`http://localhost:3000/todos/${id}`, {
-      method: 'DELETE'
-    }).then(()=> {
-    fetchTodos()
-   });
-  }
-  
+
   onMounted(() => {
     fetchTodos()
   })
