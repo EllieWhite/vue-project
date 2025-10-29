@@ -28,13 +28,22 @@ import * as yup from 'yup';
 // }]);
 
 //start fb
-  const isLoading = ref(true);
   const cities = ref([]);
 
+  const error = ref(false);
+  const isLoading = ref(true);
+
   const fetchCities = async () => {
-    const citiesCollection = collection(db, 'cities');
-    const citiesSnapShot = await getDocs(citiesCollection);
-    cities.value = citiesSnapShot.docs.map(doc => doc.data())
+    try {
+      const citiesCollection = collection(db, 'cities');
+      const citiesSnapShot = await getDocs(citiesCollection);
+      cities.value = citiesSnapShot.docs.map(doc => doc.data())
+    } catch (error) {
+      error.value = err.message;
+    } finally {
+      isLoading.value = false;
+    }
+
   }
 
   const users = ref([]);
@@ -43,29 +52,8 @@ import * as yup from 'yup';
     const usersSnapShot = await getDocs(usersCollection);
     users.value = usersSnapShot.docs.map(doc => doc.data())
   }
-
-  const newUser = () => {
-    const newData = {
-      id: Date.now().toString(),
-      firstName: firstname.value,
-      lastName: lastname.value,
-      country: country.value,
-      city: city.value,
-      phone: phone.value,
-      email: email.value,
-      password: password.value,
-      comments: comments.value
-    }
-
-    const postRef = doc(db, 'users', newData.id);
-    setDoc(postRef, newData).then(() => {
-      fetchData();
-    })
-  }
-
     onMounted(() => {
       fetchCities();
-      isLoading.value = false;
   })
   
 
@@ -73,8 +61,6 @@ import * as yup from 'yup';
       fetchData();
   })
   
-//end fb
-
 
 const registrationSuccess = ref(false);
 
@@ -88,13 +74,40 @@ const toggleConfirmPasswordVisibility = () => {
   passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
 };
 
-const existingUser = ref(false);
-const register = (values) => {
-  registrationSuccess.value = true;
-  newUser();
-  console.log('Registration data:', values);
-};
+const register = async (values) => {
+  isLoading.value = true;
+  error.value = '';
+  const filteredValue = Object.fromEntries(
+    Object.entries(values).filter(([key, value]) => value !== '' && value !== null && value !== undefined)
+  )
+console.log(filteredValue)
+  const newUser = {
+    id: Date.now().toString(),
+    ...filteredValue
+  }
 
+      try {
+      const usersCollection = collection(db, 'users')
+      const usersSnapshot = await getDocs(usersCollection)
+      const existingUser = usersSnapshot.docs.find(doc => doc.data().email === newUser.email)
+
+      if (existingUser) {
+        error.value = 'Пользователь с таким email уже существует'
+        return
+      } else {
+        const userRef = doc(db, 'users', newUser.id);
+        setDoc(userRef, newUser).then(() => {
+          registrationSuccess.value = true;
+        });
+      }
+    } catch (error) {
+      console.error('Error checking existing users:', error)
+    } finally {
+      isLoading.value = false;
+    }
+
+};
+//end fb
 const schema = yup.object({
   firstname: yup.string().required('Имя обязательно') ,
   lastname: yup.string().required('Фамилия обязательна'),
@@ -191,7 +204,7 @@ const schema = yup.object({
     </div>
     <br />
     <br />
-    <div class="error" v-show="error">Произошла ошибка:</div>
+    <div class="error" v-show="error">Произошла ошибка: {{ error }}</div>
   </div>
 </template>
 
