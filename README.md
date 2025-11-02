@@ -385,3 +385,80 @@
 **Динамический useFetch()**
 
     утилита toValue Нормализует значения / ref-объекты / геттеры к значениям.
+
+
+**Single Page Application**
+
+    MPA работают по принципу- 1 страница - один url. Кажда перезагрузка может быть медленнее, ощущаться как дергание.
+    SPA - при переходе между страницами нет полной перезагрузки. JS динамически обновляет необходимую часть интерфейса. Маршрутизатор отвечает за url-адреса.
+
+
+**Vue Router**
+
+    Компонент <RouterView/> представляет собой слот, который используется для отображения компонента маршрута. Под капотом выглядит след. образом:
+    <RouterView v-slot='{ Component }'><component :is="Component" /></RouterView>
+
+    Для создания перехода необходимо выполнить:
+        1. элементы навигации поместить в тег <RouterLink to="/">Главное</RouterLink>
+        2. Для <main> создать <RouterView />
+        3. В main.js добавить 
+            import router from './router';
+            createApp(App).use(router).mount('#app')
+        4. создать файл router.js
+            import { createRouter, createWebHistory } from "vue-router";
+            import HomeView from "./pages/HomeView.vue";
+            import ContactsView from "./pages/ContactsView.vue";
+
+            const routes = [
+                { path: "/", component: HomeView },
+                { path: "/contacts", component: ContactsView },
+            ]
+
+            export default createRouter ({
+                history: createWebHistory(),
+                routes
+            })
+
+    Для навигации-функции:
+        import { useRouter } from 'vue-router';
+        const router = useRouter();
+        const onBtnClick = () => {
+            router.push("/contacts")
+        }
+
+        <button @click="onBtnClick">перейти</button>
+
+    Если мы не хотим хранить эту часть в сторе, а просто автоматически перезаписать текущую url, то вместо push использовать replace - он осущствляет навигацию без добавления новой записи в сторе, просто заменяет текущую. Помимо этого, replace так же будет работать как аттрибут в RouterLink.
+
+    Метод go принимает в к-ве параметра целое число, которое указывает, на сколько щагов вперед или назад следует перейти в стеке истории
+
+        router.go(1)
+
+
+**Redirect. Страница 404**
+
+    редирект:
+        { path: "/c", redirect: "/contacts"},
+    доп.адрес:
+        { path: "/", component: HomeView, alias: "/home" },
+    страница 404:
+        { path: "/:pathMatch(.*)*", name: 'name', component: NotFound},
+
+
+**Анимация и LazyLoading**
+
+    <RouterView v-slot='{ Component }'><component :is="Component" />
+        <Transition name="fade"></Transition>
+    </RouterView>
+
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .5s ease;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0
+        }
+    </style>
