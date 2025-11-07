@@ -12,7 +12,7 @@ const routes = [
     { path: "/dashboard", component: DashboardView },
     { path: "/", redirect: "/dashboard"},
     { path: "/tasks", component: () => import("./pages/TasksView.vue") },
-    { path: "/tasks/:id", component: () => import("./pages/TaskDetailsView.vue") },
+    { path: "/tasks/:id", component: () => import("./pages/TaskDetailsView.vue"), props: true},
     { 
         path: "/settings", 
         name: 'Settings',
