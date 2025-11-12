@@ -1,0 +1,14 @@
+<script setup>
+import { useCounterStore } from '@/store/counter';
+import { storeToRefs } from 'pinia';
+
+const store = useCounterStore();
+const { counter } = storeToRefs(store);
+
+const { increment } = store;
+</script>
+
+<template>
+    <p>счетчик: {{ counter }}</p>
+    <button @click="increment()">кнопка {{ store.counter }}</button>
+</template>

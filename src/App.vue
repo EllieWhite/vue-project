@@ -1,18 +1,12 @@
 <script setup>
+import ComponentA from './components/ComponentA.vue';
+import ComponentB from './components/ComponentB.vue';
 
 </script>
 
 <template>
-  <nav>
-    <RouterLink to="/">Главное</RouterLink>
-    <RouterLink to="/contacts">Контакты</RouterLink>
-    <RouterLink to="/product/lamp-123">лампа</RouterLink>
-    <RouterLink to="/product/light-123">свет</RouterLink>
-  </nav>
-
-  <main>
-    <RouterView />
-  </main>
+<ComponentA />
+<ComponentB />
 </template>
 
 
