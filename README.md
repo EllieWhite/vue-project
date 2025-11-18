@@ -213,6 +213,15 @@
     const userName = ref('')
     <input v-model="userName" />
 
+    Внутри <textarea> ИНТЕРПОЛЯЦИЯ НЕ РАБОТАЕТ, используйте v-model.
+    template
+
+    <!-- НЕ БУДЕТ РАБОТАТЬ -->
+    <textarea>{{ text }}</textarea>
+
+    <!-- А так работает -->
+    <textarea v-model="text"></textarea>
+    
 
 **Элементы формы — checkbox и radio**
     const radio = ref([])
