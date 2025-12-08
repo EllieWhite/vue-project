@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+
+:root {
+  --header-height-main: 104px;
+}
