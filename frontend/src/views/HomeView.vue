@@ -1,9 +1,10 @@
 <script setup>
-
+  import ArticlesList from '@/components/ArticlesList.vue';
+  import LayoutContainer from '@/components/LayoutContainer.vue';
 </script>
 
 <template>
-  <main>
-    <h1>main page</h1>
-  </main>
+  <LayoutContainer>
+      <ArticlesList />
+  </LayoutContainer>
 </template>

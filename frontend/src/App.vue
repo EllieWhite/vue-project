@@ -1,6 +1,7 @@
 <script setup>
   import { RouterView } from 'vue-router';
   import LayoutHeader from './components/LayoutHeader.vue';
+  import LayoutFooter from './components/LayoutFooter.vue';
 
 </script>
 
@@ -11,10 +12,7 @@
       <RouterView />
     </main>
 
-    <footer class="bg-white">
-
-    </footer>
-
+    <LayoutFooter/>
   </div>
 </template>
 
