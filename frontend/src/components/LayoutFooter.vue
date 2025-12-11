@@ -14,7 +14,6 @@
     fetch(`https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}`, { headers })
     .then(response => response.json())
     .then(json => {
-      console.log(json);
       city.value = json.geo_object.locality.name;
       temp.value = json.fact.temp;
       precStrength.value = json.fact.prec_strength
@@ -25,11 +24,8 @@
     year: 'numeric'
   });
 
-  console.log(import.meta.env.VITE_APP_YANDEX_WEATHER_KEY)
-
   onBeforeMount(() => {
     const accessKey = import.meta.env.VITE_APP_YANDEX_WEATHER_KEY;
-      console.log('YANDEX KEY:', accessKey);
 
       const headers = {
         'X-Yandex-Weather-Key': accessKey
