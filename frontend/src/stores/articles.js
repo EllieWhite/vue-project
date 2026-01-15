@@ -5,16 +5,16 @@
 
       const articles = ref([
       ])
-      const isLoading = ref(false) // Новое состояние загрузки
-      const error = ref(null) // Новое состояние ошибки
+      const isLoading = ref(false)
+      const error = ref(null)
 
-      const fetchArticles = async() => {
+      const fetchArticles = async(search = '') => {
 
         isLoading.value = true;
-        error.value = null; // Сброс ошибки перед новым запросом
+        error.value = null;
         try {
 
-          const response = await fetch('/posts');
+          const response = await fetch(`/posts?search=${search}`);
 
           if (!response.ok) {
 
@@ -22,14 +22,12 @@
           }
 
           const { data } = await response.json();
-          articles.value = data.posts || []; // Убедитесь, что articles.value всегда массив
+          articles.value = data.posts || [];
           console.log('Fetched data:', data);
 
         } catch(e) {
           console.error('Failed to fetch articles:', e);
-          error.value = 'Не удалось загрузить статьи.'; // Сохраняем ошибку
-          // В случае ошибки, возможно, вы захотите сохранить начальные статьи или очистить их
-          // articles.value = []; // Или так, если хотите очистить
+          error.value = 'Не удалось загрузить статьи.';
         } finally {
           isLoading.value = false;
         }

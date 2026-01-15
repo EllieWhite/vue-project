@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <header class="bg-white fixed top-0 left-0 right-0" style="height: var(--header-height-main);">
+  <header class="bg-white fixed top-0 left-0 right-0 z-50" style="height: var(--header-height-main);">
     <LayoutContainer>
       <div class="flex justify-between items-center h-full">
         <div>
