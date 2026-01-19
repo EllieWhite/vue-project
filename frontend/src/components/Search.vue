@@ -4,12 +4,6 @@
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons';
 
-
-  import { useArticlesStore } from '@/stores/articles';
-
-  const articleStore = useArticlesStore();
-
-
   const props = defineProps({
     onSearch: {
       type: Function,
@@ -27,14 +21,7 @@
     props.onSearch({search: searchQuery.value} )
   }
 
-  const debouncedSearch = (query) => {
-    clearTimeout(debouncedTimer)
-
-
-    debouncedTimer = setTimeout(() => {
-      props.onSearch({ search: query })
-    }, 2000)
-  }
+  const debouncedSearch = debounce(handlerSearch, 2000);
 
   watch(searchQuery, (newQuery) => {
     debouncedSearch(newQuery);
