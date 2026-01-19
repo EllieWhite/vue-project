@@ -13,7 +13,6 @@
     articleStore.fetchArticles()
   })
 
-
 </script>
 <template>
   <section class="my-8">
@@ -24,7 +23,7 @@
         <li v-for="article in articleStore.articles" :key="article.id" class="flex">
           <article class="flex w-full">
             <RouterLink :to="`/post/${article.id}`" class="rounded-md bg-white w-full shadow transition-transform hover:transform-[scale(1.05)]">
-              <div class="p-4 flex flex-col">
+              <div class="p-4 flex flex-col  h-full">
                 <img :src="article.imageUrl" class="w-full h-48 object-cover" alt="">
                 <h3 class="mt-4 mb-3">{{ article.title }}</h3>
                 <div class="flex justify-between align-center mt-auto">
