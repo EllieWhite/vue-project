@@ -3,6 +3,7 @@
   import { debounce } from 'lodash';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons';
+  import ButtonBase from '@/components/base/ButtonBase.vue';
 
   const props = defineProps({
     onSearch: {
@@ -40,23 +41,15 @@
         type="text"
         name="search"
         placeholder="Поиск по блогу"
-        class="
-          rounded-md border
-          border-gray-300
-          bg-white
-          pl-2
-          pr-20
-          py-2
-          rounded-l-md
-          w-full"
-        />
-        <button class="cursor-pointer" @click="clearSearch" v-if="searchQuery !='' ">
-          <FontAwesomeIcon :icon="faX" class="absolute py-3 right-16 top-0"/>
-        </button>
-
-      <button type="submit" class="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-700 absolute right-0 top-0">
-        <FontAwesomeIcon :icon="faMagnifyingGlass" class="text-white"/>
+        class="pr-20 bg-white w-full p-2 border-base"
+      />
+      <button class="cursor-pointer" @click="clearSearch" v-if="searchQuery !='' ">
+        <FontAwesomeIcon :icon="faX" class="absolute py-3 right-16 top-0"/>
       </button>
+
+      <ButtonBase type="submit" class="hover:bg-blue-700 absolute right-0 top-0">
+         <FontAwesomeIcon :icon="faMagnifyingGlass" class="text-white"/>
+      </ButtonBase>
     </div>
 
   </form>

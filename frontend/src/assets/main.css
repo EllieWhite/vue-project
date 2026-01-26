@@ -1,6 +1,21 @@
 @import "tailwindcss";
-
+@tailwind utilities;
 
 :root {
   --header-height-main: 104px;
+}
+
+
+@layer components {
+  .title-primary {
+    @apply font-bold text-[23px] text-center;
+  }
+
+  .border-base {
+    @apply rounded-md border border-[#d1d5dc];
+  }
+
+  .text-1 {
+    @apply text-[15px] text-[#364153] leading-[1.54];
+  }
 }
