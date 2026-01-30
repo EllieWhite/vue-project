@@ -29,8 +29,8 @@
       if (data?.error) {
         throw new Error(data?.error)
       }
-
-      router.push('/login')
+      userStore.user.value = data.user
+      router.push('/')
 
     } catch (error) {
       errorMessage.value = error
@@ -59,12 +59,9 @@
           <ErrorMessage name="confirmPassword" class="text-red-500 mt-1 text-sm" />
         </div>
         <ButtonBase type="submit" class="w-full mt-4">Зарегистрироваться</ButtonBase>
+        <MessageBox type="error" class="mt-4">{{ errorMessage }}</MessageBox>
       </div>
     </Form>
-     <!-- <div v-else class="message message--success">
-      Регистрация прошла успешно!
-    </div> -->
-    <MessageBox type="error">{{ errorMessage }}</MessageBox>
   </section>
 
 </template>

@@ -1,8 +1,21 @@
 <script setup>
   import LayoutContainer from '@/components/layout/LayoutContainer.vue';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { faCode,faBackward, faFile, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
-  import { RouterLink } from 'vue-router';
+  import { faCode,faBackward, faFile, faPeopleGroup, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+  import { RouterLink, useRouter, useRoute } from 'vue-router';
+  import { useUserStore } from '@/stores/user';
+
+  const userStore = useUserStore();
+  const route = useRoute();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const response = await userStore.logout();
+
+    if(!response.error && route.meta.requireAuth) {
+      router.push('/')
+    }
+  }
 </script>
 
 <template>
@@ -22,16 +35,29 @@
         </div>
         <div>
           <div>
-            <RouterLink to="/login" class="bg-blue-500 px-4 py-2 text-white rounded-md inline-block" aria-label="войти">Войти</RouterLink>
+            <RouterLink
+              v-if="!userStore.isAutorized"
+              to="/login"
+              class="bg-blue-500 px-4 py-2 text-white rounded-md inline-block"
+              aria-label="войти">
+                Войти
+            </RouterLink>
+            <div v-else class='flex gap-3 items-center' @click="handleLogout">
+              <p>{{ userStore.user.login }}</p>
+             <button class="cursor-pointer hover:text-blue-500">
+                |
+                <FontAwesomeIcon :icon="faArrowRightFromBracket" />
+             </button>
+            </div>
           </div>
-          <div class="mt-4 flex gap-4 items-center">
+          <div class="mt-4 flex gap-4 items-center justify-end">
             <a href="">
               <FontAwesomeIcon :icon="faBackward" @click="$router.go(-1)" aria-label="назад"/>
             </a>
-            <RouterLink to="/post" aria-label="новый пост">
+            <RouterLink v-if="userStore.isAutorized" to="/post" aria-label="новый пост">
               <FontAwesomeIcon :icon="faFile" />
             </RouterLink>
-            <RouterLink to="/users" aria-label="пользователи">
+            <RouterLink v-if="userStore.isAutorized" to="/users" aria-label="пользователи">
               <FontAwesomeIcon :icon="faPeopleGroup" />
             </RouterLink>
             </div>
