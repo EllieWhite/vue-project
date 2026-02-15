@@ -54,10 +54,10 @@
             <a href="">
               <FontAwesomeIcon :icon="faBackward" @click="$router.go(-1)" aria-label="назад"/>
             </a>
-            <RouterLink v-if="userStore.isAutorized" to="/post" aria-label="новый пост">
+            <RouterLink v-if="userStore.isAutorized && userStore.isAdmin" to="/post" aria-label="новый пост">
               <FontAwesomeIcon :icon="faFile" />
             </RouterLink>
-            <RouterLink v-if="userStore.isAutorized" to="/users" aria-label="пользователи">
+            <RouterLink v-if="userStore.isAutorized && userStore.isAdmin" to="/users" aria-label="пользователи">
               <FontAwesomeIcon :icon="faPeopleGroup" />
             </RouterLink>
             </div>

@@ -18,4 +18,8 @@
   .text-1 {
     @apply text-[15px] text-[#364153] leading-[1.54];
   }
+
+  .table-item-base {
+    @apply py-1 text-center;
+  }
 }

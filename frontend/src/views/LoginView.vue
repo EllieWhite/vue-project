@@ -34,9 +34,9 @@
       errorMessage.value = error
     }
 
-      if (userStore.isAutorized) {
-    console.log('aaaaaaaaaa')
-  }
+  //     if (userStore.isAutorized) {
+  //   console.log('aaaaaaaaaa')
+  // }
   }
 </script>
 

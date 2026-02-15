@@ -1,8 +1,11 @@
-export const formatDate = (dateString) => {
+export const formatDate = (dateString, options) => {
   const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    })
+
+  const settings = options || {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }
+
+  return date.toLocaleDateString('ru-RU', settings)
 }
