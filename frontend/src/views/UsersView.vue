@@ -105,11 +105,11 @@
               <div class="table-item-base">
                 <form @submit.prevent="handleUserRole(user)" class="flex gap-2 items-center">
                   <v-select
-                    :key="`${user.id}-${role.id}`"
                     v-model="user.roleId"
                     :options="rolesStore.roles"
                     label="name"
                     :reduce="role => role.id"
+                    :key="`${user.id}-${roleId}`"
                     class="w-full"
                     @option:selected="handleSampleRole(user)"
                   />
