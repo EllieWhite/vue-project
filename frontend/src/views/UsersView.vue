@@ -3,12 +3,12 @@
   import { onBeforeMount, ref, reactive } from 'vue';
   import ButtonBase from '@/components/base/ButtonBase.vue';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { faFloppyDisk, faTrash } from '@fortawesome/free-solid-svg-icons';
+  import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
   import { useUsersStore } from '@/stores/users';
   import { useRolesStore } from '@/stores/roles';
   import MessageBox from '@/components/base/MessageBox.vue';
   import { formatDate } from '@/utils/dateFormaters';
-
+  import ButtonTrash from '@/components/base/ButtonTrash.vue';
 
   const errorMessage = ref('');
   const usersStore = useUsersStore();
@@ -118,10 +118,7 @@
                 </form>
               </div>
               <div @click="handleDeleteUser(user.id)" class="table-item-base">
-                <button class="cursor-pointer text-red-500 hover:text-red-800">
-                  <FontAwesomeIcon :icon="faTrash"/>
-                  Удалить
-                </button>
+               <ButtonTrash />
               </div>
             </li>
           </ul>

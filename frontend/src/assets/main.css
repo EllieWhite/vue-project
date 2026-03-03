@@ -11,6 +11,11 @@
     @apply font-bold text-[23px] text-center;
   }
 
+  .subtitle-1 {
+    @apply font-bold text-[16px];
+  }
+
+
   .border-base {
     @apply rounded-md border border-[#d1d5dc];
   }
@@ -18,6 +23,7 @@
   .text-1 {
     @apply text-[15px] text-[#364153] leading-[1.54];
   }
+
 
   .table-item-base {
     @apply py-1 text-center;
