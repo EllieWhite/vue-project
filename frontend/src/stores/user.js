@@ -8,13 +8,11 @@ const initUser = {
   roleId: null,
   registeredAt: ''
 }
+
 export const useUserStore = defineStore('user', () => {
   const user = ref(initUser)
-
   const isAutorized = computed(() => !!user.value.id)
-
   const isAdmin = computed(() => user.value.id && user.value.roleId === ROLES.ADMIN)
-
   const isModerator = computed(() => user.value.id && user.value.roleId === ROLES.MODERATOR)
 
   const register = async (login, password) => {

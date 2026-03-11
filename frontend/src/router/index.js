@@ -38,6 +38,7 @@ const router = createRouter({
     {
       path: '/post/:id',
       component: () => import('../views/ArticleView.vue'),
+      props: true
     },
      {
       path: '/user/:id',

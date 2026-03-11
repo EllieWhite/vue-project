@@ -6,23 +6,31 @@
   import { RouterLink } from 'vue-router';
   import { formatDate } from '@/utils/dateFormaters';
   import Search from './Search.vue';
+  import { useArticleStore } from '@/stores/article';
 
-  const articleStore = useArticlesStore();
+  const articleStore = useArticleStore();
+  const checkEditMode = () => {
+    if (articleStore.isInEditMode) {
+      articleStore.isInEditMode = false;
+    }
+  }
+
+  const articlesStore = useArticlesStore();
 
   onBeforeMount(() => {
-    articleStore.fetchArticles()
+    articlesStore.fetchArticles()
   })
 
 </script>
 <template>
   <section class="my-8">
     <h2 class="sr-only">Последние статьи</h2>
-    <Search :on-search="articleStore.fetchArticles" />
-    <div v-if="articleStore.articles.length !=0">
+    <Search :on-search="articlesStore.fetchArticles" />
+    <div v-if="articlesStore.articles.length !=0">
       <ul class="grid grid-cols-3 gap-8 mt-8">
-        <li v-for="article in articleStore.articles" :key="article.id" class="flex">
+        <li v-for="article in articlesStore.articles" :key="article.id" class="flex">
           <article class="flex w-full">
-            <RouterLink :to="`/post/${article.id}`" class="rounded-md bg-white w-full shadow transition-transform hover:transform-[scale(1.05)]">
+            <RouterLink :to="`/post/${article.id}`" @click="checkEditMode" class="rounded-md bg-white w-full shadow transition-transform hover:transform-[scale(1.05)]">
               <div class="p-4 flex flex-col  h-full">
                 <img :src="article.imageUrl" class="w-full h-48 object-cover" alt="">
                 <h3 class="mt-4 mb-3">{{ article.title }}</h3>

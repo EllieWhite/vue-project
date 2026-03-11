@@ -28,4 +28,8 @@
   .table-item-base {
     @apply py-1 text-center;
   }
+
+  .label-edit {
+    @apply mt-5 mb-1 block font-mono text-lg text-gray-400;
+  }
 }
