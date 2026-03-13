@@ -7,9 +7,12 @@
   import { onBeforeMount } from 'vue';
   import { useArticleStore } from '@/stores/article';
   import { useUserStore } from '@/stores/user';
+  import { ref } from 'vue';
+  import NotFoundView from './NotFoundView.vue';
 
   const articleStore = useArticleStore()
   const userStore = useUserStore()
+  const notFound = ref(false)
 
   const props = defineProps({
     id: {
@@ -20,9 +23,13 @@
 
   onBeforeMount(async () => {
     try {
-      await articleStore.fetchArticle(props.id)
+      const response = await articleStore.fetchArticle(props.id);
+      if(response.error) {
+         notFound.value = true
+      }
     } catch (error) {
-      console.error(error)
+      console.log(error)
+      notFound.value = true
     }
   })
 
@@ -37,7 +44,8 @@
 </script>
 
 <template>
-  <LayoutContainer class="py-4">
+  <NotFoundView v-if="notFound"/>
+  <LayoutContainer v-else class="py-4">
     <ArticleDetainsForm  v-if="articleStore.isInEditMode"/>
     <ArticleDetails v-else :date-options="formatDateOptions" />
   <div v-if="!articleStore.isInEditMode &&

@@ -59,7 +59,6 @@ export const useArticleStore = defineStore('article', () => {
       }
 
       return 'success'
-
       } catch (error) {
       console.error('Ошибка обновления статьи', error)
     }
@@ -107,7 +106,6 @@ export const useArticleStore = defineStore('article', () => {
       const data = await response.json();
 
       if(!data.error) {
-        console.log('aaaaaaaaaa')
         article.value.comments.push(data.data)
       }
       return data
