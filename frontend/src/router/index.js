@@ -1,4 +1,4 @@
-import { useUserStore } from '@/stores/user'
+// import { useUserStore } from '@/stores/user'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -23,7 +23,7 @@ const router = createRouter({
       name: 'users',
       component: () => import('../views/UsersView.vue'),
       meta: {
-        requireAuth: true
+        requireAdmin: true
       }
     },
     {
@@ -51,18 +51,18 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
-  if(to.meta.requireAuth) {
-    const userStore = useUserStore();
-
-    if (userStore.isAutorized) {
-      next()
-    } else {
-      next('/login')
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, _from, next) => {
+//  if(to.meta.requireAuth) {
+//    const userStore = useUserStore();
+//
+//    if (userStore.isAutorized) {
+//      next()
+//    } else {
+//      next('/login')
+//    }
+//  } else {
+//    next()
+//  }
+// })
 
 export default router
