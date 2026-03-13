@@ -1,5 +1,6 @@
 <script setup>
   import { useModalStore } from '@/stores/modal';
+  import ButtonBase from './ButtonBase.vue';
 
   const modalStore = useModalStore()
 
@@ -11,8 +12,8 @@
     <div class="bg-white rounded-md p-8 relative max-w-md mx-auto top-50">
       <p class="text-center">{{modalStore.message}}</p>
       <div class="flex gap-4 justify-end mt-8">
-        <button type="button"  @click="modalStore.close" class="cursor-pointer bg-gray-100 rounded-md py-2 px-4 hover:bg-gray-200">Отмена</button>
-        <button type="button" @click="modalStore.confirm" class="cursor-pointer text-white bg-blue-500 rounded-md py-2 px-4 hover:bg-blue-700">Да</button>
+        <ButtonBase @click="modalStore.close" class="bg-gray-400 px-4 hover:bg-gray-500">Отмена</ButtonBase>
+        <ButtonBase @click="modalStore.confirm" class="cursor-pointer px-4 hover:bg-blue-700">Да</ButtonBase>
       </div>
     </div>
   </div>

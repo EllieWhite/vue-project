@@ -5,7 +5,7 @@
   import { onBeforeMount } from 'vue';
   import { RouterLink } from 'vue-router';
   import { formatDate } from '@/utils/dateFormaters';
-  import Search from './Search.vue';
+  import Search from './SearchBase.vue';
   import { useArticleStore } from '@/stores/article';
 
   const articleStore = useArticleStore();
