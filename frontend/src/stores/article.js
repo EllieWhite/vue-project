@@ -139,7 +139,29 @@ export const useArticleStore = defineStore('article', () => {
     }
   }
 
- return { article, fetchArticle, isInEditMode, toggleEditMode, updateArticle, deleteArticle, addComment, deleteComment }
+    const createArticle = async (newContent) => {
+    try {
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newContent)
+      })
+
+      if(!response.ok) {
+        throw new Error(response)
+      }
+
+      const data = await response.json()
+
+      return data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+ return { article, fetchArticle, isInEditMode, toggleEditMode, updateArticle, deleteArticle, addComment, deleteComment, createArticle }
 })
 
 if (import.meta.hot) {
