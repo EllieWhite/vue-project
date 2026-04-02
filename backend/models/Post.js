@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-
+import mongoose from 'mongoose';
+import validator from 'validator'
 
 const PostSchema = mongoose.Schema({
     title: {
@@ -27,4 +26,4 @@ const PostSchema = mongoose.Schema({
 
 const Post = mongoose.model('Post', PostSchema);
 
-module.exports = Post;
+export default Post;
