@@ -38,11 +38,11 @@ const login = async (login, password) => {
     return { token, user };
 }
 
-function getUsers() {
+const getUsers = () => {
     return User.find();
 }
 
-function getRoles() {
+const getRoles = () => {
     return [
         { id: ROLES.ADMIN, name: 'Admin' },
         { id: ROLES.MODERATOR, name: 'Moderator' },
@@ -52,7 +52,7 @@ function getRoles() {
 
 // delete
 
-function deleteUser(id) {
+const deleteUser = (id) => {
     return User.deleteOne({ _id: id })
 }
 
