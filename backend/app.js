@@ -8,6 +8,8 @@ import authenticated from './middlewares/authenticated.js';
 import hasRole from './middlewares/hasRole.js';
 import ROLES from './constants/roles.js'
 import mapPost from './helpers/mapPost.js';
+import { addComment, deleteComment } from './controllers/comment.js';
+import mapComment from './helpers/mapComment.js';
 
 const port = 3001;
 const app = express();
@@ -58,6 +60,33 @@ app.get('posts/:id', async(req, res) => {
 })
 
 app.use(authenticated);
+
+app.post('/posts/:id/comments', async (req, res) => {
+    const newComment = await addComment(req.params.id, {
+        content: req.body.content,
+        author: req.user.id
+    })
+
+    res.send({ data: mapComment(newComment) })
+})
+
+app.delete('/posts/:postId/comments/:commentId', hasRole([ROLES.ADMIN, ROLES.MODERATOR]), async (req, res) => {
+    await deleteComment(
+        req.params.postId,
+        req.params.commentId
+    )
+
+    res.send({ error: null })
+})
+
+
+
+
+
+
+
+
+
 
 app.post('/posts', hasRole([ROLES.ADMIN]), async(req, res) => {
     const newPost = await addPost({

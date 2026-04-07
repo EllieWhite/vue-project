@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import mapComment from "./mapComment.js";
 
 export default (post) => {
   return {
