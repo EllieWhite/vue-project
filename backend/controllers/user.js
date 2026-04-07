@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import User from '../models/User.js';
 import generate from '../helpers/token.js';
-//const ROLES = require('../constants/roles.js')
+import ROLES from '../constants/roles.js';
 
 // register
 

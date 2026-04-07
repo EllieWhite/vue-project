@@ -1,8 +1,8 @@
 import express from 'express';
-import { updateUser, getUsers, getRoles, deleteUser } from './controllers/user.js';
+import { updateUser, getUsers, getRoles, deleteUser } from '../controllers/user.js';
 import hasRole from '../middlewares/hasRole.js';
 import authenticated from '../middlewares/authenticated.js';
-import mapUser from '../helpers/mapUser';
+import mapUser from '../helpers/mapUser.js';
 import ROLES from '../constants/roles.js'
 
 const router = express.Router({ mergeParams: true })

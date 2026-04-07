@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login } from '.../controllers/user';
+import { register, login } from '../controllers/user.js';
 import mapUser from '../helpers/mapUser.js';
 
 const router = express.Router({ mergeParams: true })

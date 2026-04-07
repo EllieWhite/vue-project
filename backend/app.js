@@ -1,11 +1,11 @@
-require('dotenv').config()
+import 'dotenv/config';
 
-const express = require('express')
-const mongoose = require('mongoose')
-const cookieParser = require('cookie-parser')
-const routes = require('./routes')
+import express from 'express';
+import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
+import routes from './routes/index.js';
 
-const port = 3001
+const port = 3002
 const app = express()
 
 app.use(cookieParser())

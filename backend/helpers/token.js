@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
-const sign = 'test';
+const sign = process.env.JWT_SECRET;
 
-const generate = (data) => jwt.sign(data, sign, { expiresIn: '30d' });
+ const generate = (data) => jwt.sign(data, sign, { expiresIn: '30d' });
 
-const verify = (token) => {
+ const verify = (token) => {
   if (!token) {
     throw new Error('Invalid token');
   }
@@ -12,5 +12,4 @@ const verify = (token) => {
 };
 
 
-
-export default { generate, verify }
+export default {generate, verify}
