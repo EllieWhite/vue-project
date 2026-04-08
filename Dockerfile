@@ -7,7 +7,7 @@ COPY . .
 WORKDIR /usr/src/app/frontend
 RUN npm i
 
-RUN  num run build
+RUN npm run build
 
 WORKDIR /usr/src/app/backend
 RUN npm i
