@@ -1,8 +1,7 @@
 <script setup>
-  import { Field } from 'vee-validate';
+import { Field } from 'vee-validate'
 </script>
 
 <template>
-  <Field class="w-full p-2 border-base" />
-
+  <Field class="bg-white border border-gray-300 w-full rounded-md p-2"></Field>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <label for="" class="text-1">
+  <label class="block text-gray-700">
     <slot></slot>
   </label>
 </template>

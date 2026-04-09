@@ -1,19 +1,21 @@
 <script setup>
-  import { useModalStore } from '@/stores/modal';
-  import ButtonBase from './ButtonBase.vue';
+import { useModalStore } from '@/stores/modal';
 
-  const modalStore = useModalStore()
-
+const modalStore = useModalStore();
 </script>
 
 <template>
-  <div v-if="modalStore.isVisible" class="fixed inset-0 z-100">
-    <div class="fixed bg-black opacity-30 inset-0"></div>
-    <div class="bg-white rounded-md p-8 relative max-w-md mx-auto top-50">
-      <p class="text-center">{{modalStore.message}}</p>
-      <div class="flex gap-4 justify-end mt-8">
-        <ButtonBase @click="modalStore.close" class="bg-gray-400 px-4 hover:bg-gray-500">Отмена</ButtonBase>
-        <ButtonBase @click="modalStore.confirm" class="cursor-pointer px-4 hover:bg-blue-700">Да</ButtonBase>
+  <div v-show="modalStore.isVisible" class="fixed left-0 right-0 top-0 bottom-0 z-50">
+    <div class="fixed left-0 right-0 top-0 bottom-0  bg-black opacity-50" @click="modalStore.close"></div>
+
+    <div class="bg-white rounded-md p-8 top-50 relative w-lg mx-auto">
+      <p class="text-center mt-4 mb-8">{{ modalStore.message }}</p>
+
+      <div class="flex gap-4 justify-end">
+        <button type="button" class="cursor-pointer text-gray-600 bg-gray-100 rounded-md py-2 px-4 hover:bg-gray-200"
+          @click="modalStore.close">Отмена</button>
+        <button type="button" class="cursor-pointer bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-700"
+          @click="modalStore.confirm">Да</button>
       </div>
     </div>
   </div>

@@ -1,7 +1,5 @@
-
 <template>
-  <div class="max-w-7xl px-8 mx-auto w-full h-full">
-    <slot>
-    </slot>
+  <div class="max-w-7xl mx-auto px-8">
+    <slot></slot>
   </div>
 </template>

@@ -7,8 +7,8 @@ export const useModalStore = defineStore('modal', () => {
   const callback = ref(null)
 
   const open = (newMessage, newCallback) => {
-    message.value = newMessage
     callback.value = newCallback
+    message.value = newMessage
     isVisible.value = true
   }
 
@@ -19,13 +19,11 @@ export const useModalStore = defineStore('modal', () => {
   const confirm = () => {
     callback.value()
     close()
-
-
   }
 
- return { isVisible, message, open, close, confirm }
+  return { message, isVisible, open, close, confirm }
 })
 
 if (import.meta.hot) {
- import.meta.hot.accept(acceptHMRUpdate(useModalStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useModalStore, import.meta.hot))
 }

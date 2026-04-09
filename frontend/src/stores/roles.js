@@ -6,17 +6,15 @@ export const useRolesStore = defineStore('roles', () => {
 
   const fetchRoles = async () => {
     try {
-      const response = await fetch('/api/users/roles');
+      const response = await fetch('/api/users/roles')
 
-      if(!response.ok) {
-        throw new Error('Ошибка запроса ролей пользователя')
+      if (!response.ok) {
+        throw new Error('Ошибка запроса ролей пользователей')
       }
-
-      const data = await response.json();
-      roles.value = data;
+      const data = await response.json()
       return data
-      } catch (error) {
-      console.error(error)
+    } catch (error) {
+      console.error('Ошибка получения ролей пользователей', error)
     }
   }
 
@@ -24,5 +22,5 @@ export const useRolesStore = defineStore('roles', () => {
 })
 
 if (import.meta.hot) {
- import.meta.hot.accept(acceptHMRUpdate(useRolesStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useRolesStore, import.meta.hot))
 }

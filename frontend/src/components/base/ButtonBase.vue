@@ -1,33 +1,5 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-
-const props = defineProps({
-  to: {
-    type: [String, Object],
-    default: null
-  },
-  buttonType: {
-    type: String,
-    default: 'button'
-  }
-})
-</script>
-
 <template>
-  <RouterLink
-    v-if="to"
-    :to="to"
-    class="p-2 text-[15px] text-white bg-[#2b7fff] rounded-md cursor-pointer"
-  >
-    <slot></slot>
-  </RouterLink>
-
-  <button
-    v-else
-    :type="buttonType"
-    class="p-2 text-[15px] text-white bg-[#2b7fff] rounded-md cursor-pointer"
-  >
+  <button class="cursor-pointer bg-blue-500 text-white rounded-md p-2 px-5 mb-4">
     <slot></slot>
   </button>
 </template>
-

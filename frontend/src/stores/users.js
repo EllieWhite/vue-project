@@ -1,44 +1,37 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 export const useUsersStore = defineStore('users', () => {
-  const users = ref([]);
-  const fetchUsers = async () => {
+  const users = ref([])
 
+  const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/users');
-      const data = await response.json();
+      const response = await fetch('/api/users')
+
+      if (!response.ok) {
+        throw new Error('Ошибка запроса данных пользователей')
+      }
+      const data = await response.json()
       return data
     } catch (error) {
-      console.error(error)
+      console.error('Ошибка получения пользователей', error)
     }
-
   }
 
-  const deleteUser = async (id) => {
+  const deleteUser = async (userId) => {
     try {
-      const response = await fetch(`/api/users/${id}`, {
+      const response = await fetch(`/api/users/${userId}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
       })
 
-      if(!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errorMessage = errorData.message || `Ошибка удаления пользователя: ${response.status}`;
-        throw new Error(errorMessage);
-      } else {
-      const index = users.value.findIndex(user => user.id === id);
-      if (index !== -1) {
-        users.value.splice(index, 1);
+      if (!response.ok) {
+        throw new Error('Ошибка удаления пользователя')
       }
-      return { users: [...users.value], error: null };
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Ошибка удаления пользователя', error)
     }
-  } catch (error) {
-    console.error("Error in usersStore.deleteUser:", error);
-    return { users: null, error: error.message || 'Неизвестная ошибка при удалении' };
-  }
   }
 
   const changeUserRole = async (userId, userRole) => {
@@ -46,26 +39,24 @@ export const useUsersStore = defineStore('users', () => {
       const response = await fetch(`/api/users/${userId}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-
-        body: JSON.stringify({ roleId: userRole })
+        body: JSON.stringify({ roleId: userRole }),
       })
 
-      if(!response.ok) {
+      if (!response.ok) {
         throw new Error('Ошибка обновления роли пользователя')
       }
-
       const data = await response.json()
       return data
     } catch (error) {
-      console.error(error)
+      console.error('Ошибка обновления роли пользователя', error)
     }
   }
 
-  return {users, fetchUsers, deleteUser, changeUserRole}
+  return { users, fetchUsers, changeUserRole, deleteUser }
 })
 
 if (import.meta.hot) {
- import.meta.hot.accept(acceptHMRUpdate(useUsersStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useUsersStore, import.meta.hot))
 }

@@ -1,69 +1,64 @@
 <script setup>
-  import { Form, ErrorMessage } from 'vee-validate';
-  import * as yup from 'yup';
-  import LabelBase from '@/components/base/LabelBase.vue';
-  import InputBase from '@/components/base/InputBase.vue';
-  import MessageBox from '@/components/base/MessageBox.vue';
-  import ButtonBase from '@/components/base/ButtonBase.vue';
-  import { useUserStore } from '@/stores/user';
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
+import LabelBase from '@/components/base/LabelBase.vue';
+import InputBase from '@/components/base/InputBase.vue';
+import InputErrorBase from '@/components/base/InputErrorBase.vue';
+import ButtonBase from '@/components/base/ButtonBase.vue';
+import MessageBoxBase from '@/components/base/MessageBoxBase.vue';
 
+import { useUserStore } from '@/stores/user';
+import { Form } from 'vee-validate';
+import * as yup from 'yup';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-  const router = useRouter();
-  const userStore = useUserStore();
-  const errorMessage = ref('');
+const router = useRouter()
+const userStore = useUserStore();
+const errorMessage = ref('')
 
-  const schema = yup.object({
-    login: yup.string().required('поле login обязательно').min(2, 'login должен содержать минимим 2 символа'),
-    password: yup.string().min(6, 'password должен содержать минимум 6 символов').required('поле password обязательно'),
-  })
+const schema = yup.object({
+  login: yup.string().required('Логин обязателен').min(3, 'Логин должен быть не меньше 3 символов'),
+  password: yup.string().required('Пароль обязателен').min(6, 'Пароль должен быть не меньше 6 символов'),
+})
 
-  const handleSubmit = async (formData) => {
-    errorMessage.value = '';
-    try {
-      const data = await userStore.login(formData.login, formData.password)
+const handleSubmit = async (formData) => {
+  errorMessage.value = '';
+  try {
+    const data = await userStore.login(formData.login, formData.password)
 
-      if (data?.error) {
-        throw new Error(data?.error)
-      }
-      userStore.user = data.user
-      router.push('/')
-
-    } catch (error) {
-      errorMessage.value = error
+    if (data?.error) {
+      throw new Error(data?.error)
     }
 
-  //     if (userStore.isAutorized) {
-  //   console.log('aaaaaaaaaa')
-  // }
+    userStore.user = data.user
+    router.push('/')
+  } catch (error) {
+    errorMessage.value = error
   }
+}
+
 </script>
 
 <template>
-  <section class="pt-8">
-    <div class="w-96 mx-auto">
-      <h1 class="title-primary">Вход</h1>
-      <Form  @submit="handleSubmit" autocomplete="off" class="mt-4" :validation-schema="schema">
-        <div class="rounded-md shadow-md bg-white p-7">
-          <div>
-            <LabelBase for="login">Логин</LabelBase>
-            <InputBase type="text" name="login" id="login"/>
-            <ErrorMessage name="login" class="text-red-500 mt-1 text-sm" />
-          </div>
-          <div class="mt-4">
-            <LabelBase for="password">Пароль</LabelBase>
-            <InputBase type="password" name="password" id="pasword"/>
-            <ErrorMessage name="password" class="text-red-500 mt-1 text-sm" />
-          </div>
-          <ButtonBase type="submit" class="w-full mt-4">Вход</ButtonBase>
-          <MessageBox type="error" class="mt-4">{{ errorMessage }}</MessageBox>
-        </div>
-      </Form>
-      <p class="mt-8">нет логина?
-        <ButtonBase to="/register" linkType="true" class="w-full block text-center mt-2">Зарегистрироваться</ButtonBase>
+  <div class="py-8">
+    <h1 class="text-2xl font-bold text-center my-4">Авторизация</h1>
+    <Form class="bg-white w-full max-w-sm mx-auto p-6 rounded-md shadow-md" :validation-schema="schema"
+      @submit="handleSubmit">
+      <div class="mb-4">
+        <LabelBase for="login">Логин</LabelBase>
+        <InputBase type="text" name="login" id="login" />
+        <InputErrorBase name="login" />
+      </div>
+      <div class="mb-4">
+        <LabelBase for="password">Пароль</LabelBase>
+        <InputBase type="password" name="password" id="password" />
+        <InputErrorBase name="password" />
+      </div>
+      <ButtonBase type="submit" class="w-full">Войти</ButtonBase>
+      <p class="text-center text-gray-500">
+        Новый пользователь?
+        <RouterLink to="/register" class="text-blue-500 hover:underline">Зарегистроваться</RouterLink>
       </p>
-    </div>
-  </section>
-
+      <MessageBoxBase type="error">{{ errorMessage }}</MessageBoxBase>
+    </Form>
+  </div>
 </template>

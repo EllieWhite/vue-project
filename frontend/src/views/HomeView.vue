@@ -1,16 +1,18 @@
 <script setup>
-  import ArticlesList from '@/components/base/ArticlesList.vue';
-  import LayoutContainer from '@/components/layout/LayoutContainer.vue';
-  import PaginationBase from '@/components/base/PaginationBase.vue';
-  import { useArticlesStore } from '@/stores/articles';
+import LayoutContainer from '@/components/layout/LayoutContainer.vue';
+import SearchBase from '@/components/base/SearchBase.vue';
+import ArticlesList from '@/components/ArticlesList.vue';
+import PaginationBase from '@/components/base/PaginationBase.vue';
 
-  const articleStore = useArticlesStore();
-
+import { useArticlesStore } from '@/stores/articles';
+const articlesStore = useArticlesStore();
 </script>
 
 <template>
   <LayoutContainer>
-      <ArticlesList />
-      <PaginationBase :current-page="articleStore.currentPage" :total-page="articleStore.totalPage" :on-page-changes="articleStore.fetchArticles"/>
+    <SearchBase :on-search="articlesStore.fetchArticles" />
+    <ArticlesList />
+    <PaginationBase v-if="articlesStore.totalPage > 1" :current-page="articlesStore.currentPage"
+      :total-page="articlesStore.totalPage" :on-page-changes="articlesStore.fetchArticles" />
   </LayoutContainer>
 </template>

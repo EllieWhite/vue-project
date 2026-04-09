@@ -1,41 +1,42 @@
 <script setup>
-  import { RouterView, useRoute } from 'vue-router';
-  import LayoutHeader from './components/layout/LayoutHeader.vue';
-  import LayoutFooter from './components/layout/LayoutFooter.vue';
-  import ModalBase from './components/base/ModalBase.vue';
-  import { useUserStore } from './stores/user';
-  import { computed } from 'vue';
-  import AccessDeniedView from './views/AccessDeniedView.vue';
+import { RouterView } from 'vue-router'
+import LayoutHeader from './components/layout/LayoutHeader.vue';
+import LayoutFooter from './components/layout/LayoutFooter.vue';
+import ModalBase from './components/base/ModalBase.vue';
+import AccessDeniedView from './views/AccessDeniedView.vue';
 
-  const userStore = useUserStore()
-  const route = useRoute()
+import { useRoute } from 'vue-router';
+import { useUserStore } from './stores/user';
+import { computed } from 'vue';
 
-  const canAccess = computed(() => {
+const route = useRoute();
+const userStore = useUserStore();
 
-    if(route.meta?.requireAdmin) {
-      if(userStore.isAdmin) {
-        return true
-      } else {
-        return false
-      }
+const canAccess = computed(() => {
+  if (route.meta?.requireAdmin) {
+    if (userStore.isAdmin) {
+      return true
+    } else {
+      return false
     }
-    return true
-  })
+  }
+  return true
+})
 
 </script>
 
 <template>
-  <div class="bg-gray-100 min-h-screen flex flex-col">
-    <LayoutHeader/>
-    <main class="flex-1" style="margin-top: var(--header-height-main);">
+  <div class="bg-gray-100 w-full min-h-screen flex flex-col">
+    <header class="bg-white fixed top-0 left-0 right-0 z-10">
+      <LayoutHeader />
+    </header>
+    <main class="flex-1 mt-26">
       <RouterView v-if="canAccess" />
-      <AccessDeniedView v-else/>
+      <AccessDeniedView v-else />
     </main>
-
-    <LayoutFooter/>
+    <footer class="bg-white">
+      <LayoutFooter />
+    </footer>
     <ModalBase />
   </div>
 </template>
-
-<style scoped>
-</style>

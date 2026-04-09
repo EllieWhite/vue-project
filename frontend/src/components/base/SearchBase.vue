@@ -1,56 +1,45 @@
 <script setup>
-  import { ref, watch } from 'vue';
-  import { debounce } from 'lodash';
-  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons';
-  import ButtonBase from '@/components/base/ButtonBase.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { ref, watch } from 'vue';
 
-  const props = defineProps({
-    onSearch: {
-      type: Function,
-      required: true
-    }
-  })
+import ButtonBase from './ButtonBase.vue';
 
-  const searchQuery = ref('');
+const searchQuery = ref('');
 
-
-  let debouncedTimer;
-
-  const handlerSearch = () => {
-    clearTimeout(debouncedTimer);
-    props.onSearch({search: searchQuery.value} )
+const props = defineProps({
+  onSearch: {
+    type: Function,
+    required: true
   }
+})
 
-  const debouncedSearch = debounce(handlerSearch, 2000);
+let deboucedTimer;
 
-  watch(searchQuery, (newQuery) => {
-    debouncedSearch(newQuery);
-  });
+const handlerSearch = () => {
+  clearTimeout(deboucedTimer);
+  props.onSearch({ search: searchQuery.value })
+}
 
-  const clearSearch = () => {
-    searchQuery.value = '';
-  }
+const debouncedSearch = (query) => {
+  clearTimeout(deboucedTimer);
+
+  deboucedTimer = setTimeout(() => {
+    props.onSearch({ search: query })
+  }, 2000)
+}
+
+watch(searchQuery, (newQuery) => {
+  debouncedSearch(newQuery)
+})
 </script>
 
 <template>
-  <form @submit.prevent="handlerSearch">
-    <div class="flex relative">
-      <input
-        v-model="searchQuery"
-        type="text"
-        name="search"
-        placeholder="Поиск по блогу"
-        class="pr-20 bg-white w-full p-2 border-base"
-      />
-      <button class="cursor-pointer" @click="clearSearch" v-if="searchQuery !='' ">
-        <FontAwesomeIcon :icon="faX" class="absolute py-3 right-16 top-0"/>
-      </button>
-
-      <ButtonBase type="submit" class="hover:bg-blue-700 absolute right-0 top-0">
-         <FontAwesomeIcon :icon="faMagnifyingGlass" class="text-white"/>
-      </ButtonBase>
-    </div>
-
+  <form @submit.prevent="handlerSearch" class="mt-12 relative">
+    <input type="text" class="pr-20 bg-white border border-gray-300 w-full rounded-md p-2" name="search"
+      placeholder="Поиск по блогу" v-model="searchQuery">
+    <ButtonBase type="submit" class="absolute right-0 top-0">
+      <FontAwesomeIcon :icon="faMagnifyingGlass" />
+    </ButtonBase>
   </form>
 </template>

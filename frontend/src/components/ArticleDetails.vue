@@ -1,63 +1,61 @@
 <script setup>
-  import { useRouter } from 'vue-router';
-  import { useArticleStore } from '@/stores/article';
-  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { faCalendar, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-  import { formatDate } from '@/utils/dateFormaters';
-  import { useUserStore } from '@/stores/user';
-  import { useModalStore } from '@/stores/modal';
+import { useRouter } from 'vue-router';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faTrash, faPenToSquare, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { formatDate } from '@/utils/dateFormaters';
 
+import { useArticleStore } from '@/stores/article';
+import { useUserStore } from '@/stores/user';
+import { useModalStore } from '@/stores/modal';
 
-  const articleStore = useArticleStore();
-  const modalStore = useModalStore();
-  const userStore = useUserStore();
-  const router = useRouter();
+const router = useRouter();
+const articleStore = useArticleStore();
+const userStore = useUserStore();
+const modalStore = useModalStore()
 
-  const props = defineProps({
-    dateOptions: {
-      type: Object,
-      required: false
+const props = defineProps({
+  dateOptions: {
+    type: Object,
+    required: false
+  }
+})
+
+const handleDeleteArticle = () => {
+  modalStore.open('Удалить статью?', async () => {
+    const response = await articleStore.deleteArticle();
+    if (!response.error) {
+      router.push('/')
     }
   })
-
-  const handleDeleteArticle = () => {
-    modalStore.open('Удалить запись?', async () => {
-      const response = await articleStore.deleteArticle();
-      if (!response.error) {
-        router.push('/')
-      }
-    });
-  }
+}
 </script>
 
 <template>
-  <article class="pt-8 pb-5 px-8 rounded-md bg-white shadow-md">
-    <div class="rounded-md overflow-x-hidden">
-      <img :src="articleStore.article.imageUrl" alt="" class="w-full h-64 object-cover">
+  <div class="bg-white rounded-md shadow-md p-8 mb-8">
+    <div class="mb-4">
+      <img class="w-full rounded-md h-64 object-cover" :src="articleStore.article.imageUrl" alt="">
     </div>
-    <div class="mt-5 text-[#4a5565]">
+    <p class="text-gray-600 mb-4">
       <FontAwesomeIcon :icon="faCalendar" />
-      <time :datetime="articleStore.article.publishedAt">
-        {{ formatDate(articleStore.article.publishedAt, props.dateOptions) }}
-      </time>
-    </div>
-
-    <div class="mt-5 flex justify-between items-center">
+      &nbsp;
+      <time :datetime="articleStore.article.publishedAt">{{ formatDate(articleStore.article.publishedAt,
+        props.dateOptions) }}</time>
+    </p>
+    <div class="flex justify-between items-center mb-4">
       <h1 class="text-3xl">{{ articleStore.article.title }}</h1>
-      <div v-if="userStore.isAutorized && userStore.isAdmin" class="flex gap-2 text-lg">
-        <button @click="articleStore.toggleEditMode" aria-label="Редактировать статью" class="cursor-pointer  hover:text-gray-600">
-          <FontAwesomeIcon :icon="faEdit" />
+      <div v-if="userStore.isAdmin" class="flex gap-4 text-xl">
+        <button @click="articleStore.toggleEditMode" type="button" class="cursor-pointer hover:text-blue-500"
+          aria-label="Редактировать статью">
+          <FontAwesomeIcon :icon="faPenToSquare" />
         </button>
-        <button @click="handleDeleteArticle" aria-label="Удалить статью" class="cursor-pointer hover:text-gray-600">
-        <FontAwesomeIcon :icon="faTrash" />
+        <button type="button" class="cursor-pointer hover:text-red-500" aria-label="Удалить статью"
+          @click="handleDeleteArticle">
+          <FontAwesomeIcon :icon="faTrash" />
         </button>
       </div>
     </div>
-    <div class="mt-5">
-      <p class="mb-8 text-lg whitespace-pre-wrap">
-        {{ articleStore.article.content }}
-      </p>
+    <div class="whitespace-pre-wrap">
+      {{ articleStore.article.content }}
     </div>
-
-  </article>
+  </div>
 </template>
